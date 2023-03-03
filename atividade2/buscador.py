@@ -1,32 +1,43 @@
-import requests 
-import requests_cache
-requests_cache.install_cache('my_cache')
+import requests
 from bs4 import BeautifulSoup
+import requests_cache
 
-def search(key, url, depth):
+requests_cache.install_cache('buscador_cache')
+
+def search(keyword, url, depth):
+    if depth < 0:
+        return
+
     response = requests.get(url)
-    resultado = []
-
     soup = BeautifulSoup(response.content, 'html.parser')
-    texto = soup.get_text(strip=True)
-    i = texto.find(key)
-    if i != -1:
-        start = max(i-20, 0)
-        end = min(i+20+len(key), len(texto))
-        resultado.append(texto[start:end].strip())
 
-    if depth > 0:
-        links = soup.find_all("a")
-        for link in links:
-            url = link.get("href")
-            if url.startswith('http'):
-                resultado += search(key, url, depth-1)
-    return resultado
+    links = []
+    for link in soup.find_all('a'):
+        href = link.get('href')
+        if href and href.startswith(('http', 'https')):
+            links.append(href)
+            search(keyword, href, depth-1)
 
-key = 'python'
-url = 'https://realpython.com/'
-depth = 3
+    if keyword.lower() in soup.get_text().lower():
+        start = max(soup.get_text().lower().index(keyword.lower()) - 20, 0)
+        end = min(soup.get_text().lower().index(keyword.lower()) + 20, len(soup.get_text()))
+        print(f"Palavra-chave encontrada em {url}: {soup.get_text()[start:end].strip()}")
+        print("")
 
-resultados = search(key, url, depth)
-for resultado in resultados:
-    print(resultado.strip())
+    termos_relacionados = ['programação', 'linguagens', 'algoritmos']
+    relevancia = 0
+    referencias = 0
+
+    for link in links:
+        if url in link:
+            referencias += 1
+    if 'blog' in url or 'forum' in url:
+        relevancia -= 1
+    for termo in termos_relacionados:
+        if termo in soup.get_text().lower():
+            relevancia += 1
+
+    if relevancia or referencias:
+        print(f"Ranking de {url}: relevância = {relevancia}, referências = {referencias}")
+
+search('python', 'https://www.python.org/', 1)
