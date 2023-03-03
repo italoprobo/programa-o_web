@@ -4,7 +4,7 @@ import requests_cache
 
 requests_cache.install_cache('buscador_cache')
 
-def search(keyword, url, depth):
+def search(keyword, url, depth, ranking):
     if depth < 0:
         return
 
@@ -16,12 +16,15 @@ def search(keyword, url, depth):
         href = link.get('href')
         if href and href.startswith(('http', 'https')):
             links.append(href)
-            search(keyword, href, depth-1)
+            search(keyword, href, depth-1, ranking)
 
-    if keyword.lower() in soup.get_text().lower():
-        start = max(soup.get_text().lower().index(keyword.lower()) - 20, 0)
-        end = min(soup.get_text().lower().index(keyword.lower()) + 20, len(soup.get_text()))
-        print(f"Palavra-chave encontrada em {url}: {soup.get_text()[start:end].strip()}")
+    page_text = soup.get_text().lower()
+    keyword_index = page_text.find(keyword.lower())
+    if keyword_index != -1:
+        start = max(keyword_index - 20, 0)
+        end = min(keyword_index + 20, len(page_text))
+        context = page_text[start:end].strip()
+        print(f"Palavra-chave encontrada em {url}: {context}")
         print("")
 
     termos_relacionados = ['programação', 'linguagens', 'algoritmos']
@@ -38,6 +41,12 @@ def search(keyword, url, depth):
             relevancia += 1
 
     if relevancia or referencias:
-        print(f"Ranking de {url}: relevância = {relevancia}, referências = {referencias}")
+        ranking.append((url, relevancia, referencias))
 
-search('python', 'https://www.python.org/', 1)
+ranking = []
+search('python', 'https://www.python.org/', 1, ranking)
+
+ranking.sort(key=lambda x: (x[1], x[2]), reverse=True)
+for i, (url, relevancia, referencias) in enumerate(ranking):
+    print(f"{i+1}. Ranking de {url}: relevância = {relevancia}, referências = {referencias}")
+
