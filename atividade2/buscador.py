@@ -1,52 +1,94 @@
-import requests
 from bs4 import BeautifulSoup
+import requests
 import requests_cache
 
-requests_cache.install_cache('buscador_cache')
+requests_cache.install_cache('search_cache')
 
-def search(keyword, url, depth, ranking):
-    if depth < 0:
+pages = {}
+pages_visited = set()
+
+def search(keyword, url, depth):
+    if url in pages_visited:
         return
 
+    pages_visited.add(url)
     response = requests.get(url)
+    print("Buscando: ", url)
+
     soup = BeautifulSoup(response.content, 'html.parser')
+    texto = soup.get_text()
 
-    links = []
-    for link in soup.find_all('a'):
-        href = link.get('href')
-        if href and href.startswith(('http', 'https')):
-            links.append(href)
-            search(keyword, href, depth-1, ranking)
+    if keyword in texto:
+        start_index = max(0, texto.index(keyword) - 20)
+        end_index = min(len(texto), texto.index(keyword) + 20)
+        text_snippet = texto[start_index:end_index].strip()
+        print(text_snippet.strip())
 
-    page_text = soup.get_text().lower()
-    keyword_index = page_text.find(keyword.lower())
-    if keyword_index != -1:
-        start = max(keyword_index - 20, 0)
-        end = min(keyword_index + 20, len(page_text))
-        context = page_text[start:end].strip()
-        print(f"Palavra-chave encontrada em {url}: {context}")
-        print("")
+        if url not in pages:
+            pages[url] = 0
 
-    termos_relacionados = ['programação', 'linguagens', 'algoritmos']
-    relevancia = 0
-    referencias = 0
+        pages[url] += 1
 
+    if depth > 0:
+        html = BeautifulSoup(response.text, 'html.parser')
+        links = html.find_all('a')
+
+        for link in links:
+            if link.has_attr('href') and not link['href'].startswith('#') and not link['href'].startswith('javascript:'):
+                link_url = link['href']
+                if not link_url.startswith('http'):
+                    link_url = url + '/' + link_url.lstrip('/')
+
+                search(keyword, link_url, depth - 1)
+
+                if link_url in pages:
+                    pages[link_url] += 1
+
+def calculate_score(page, keyword, links):
+    refs = 0
     for link in links:
-        if url in link:
-            referencias += 1
-    if 'blog' in url or 'forum' in url:
-        relevancia -= 1
-    for termo in termos_relacionados:
-        if termo in soup.get_text().lower():
-            relevancia += 1
+        if page in link:
+            refs += 1
+    score = refs
 
-    if relevancia or referencias:
-        ranking.append((url, relevancia, referencias))
+    title = get_title(page)
+    description = get_description(page)
+    if keyword in title or keyword in description:
+        score *= 2 
 
-ranking = []
-search('python', 'https://www.python.org/', 1, ranking)
+    depth = len(page.split('/')) - len(url.split('/'))
+    if depth == 0:
+        score *= 5  
+    elif depth == 1:
+        score *= 3  
+    else:
+        score /= depth  
 
-ranking.sort(key=lambda x: (x[1], x[2]), reverse=True)
-for i, (url, relevancia, referencias) in enumerate(ranking):
-    print(f"{i+1}. Ranking de {url}: relevância = {relevancia}, referências = {referencias}")
+    return score
 
+def show_results():
+    count = 0
+    sorted_pages = sorted(pages, key=lambda x: calculate_score(x, keyword, links), reverse=True)
+
+    for page in sorted_pages:
+        count += 1
+        print(count, page)
+        print("Score:", calculate_score(page, keyword, links))
+
+def get_title(page):
+    html = BeautifulSoup(requests.get(page).text, 'html5lib')
+    return html.title.string if html.title else ''
+
+def get_description(page):
+    html = BeautifulSoup(requests.get(page).text, 'html5lib')
+    description = html.find('meta', attrs={'name': 'description'})
+    return description['content'] if description else ''
+
+keyword = 'python'
+url = 'https://www.python.org/'
+depth = 1
+
+search(keyword, url, depth)
+links = list(pages.keys())
+
+show_results()
