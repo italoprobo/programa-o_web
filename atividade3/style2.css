@@ -1,0 +1,98 @@
+body {
+    font-family: arial;
+    background: linear-gradient(to left, #b3cce2, #D9CCC1)
+}
+
+h1 {
+    font-size: 3rem;
+    letter-spacing: 0.5rem;
+    text-align: center;
+    background-color: #005eb0;
+    color: #d9ccc1;
+}
+
+h2 {
+    font-size: 1.5rem;
+    background-color: #005eb0;
+    color: #d9ccc1;
+}
+
+p {
+    font-size: 1rem;
+    color: #024059;
+}
+
+p.autor {
+    text-align: right;
+    color: darkslategray;
+    font-style: italic;
+}
+
+p.data {
+    text-align: left;
+    color: darkslategray;
+    font-style: italic;
+    font-size: 0.8rem;
+}
+
+p.codigo1 {
+    text-indent: 70px;
+    color: black;
+    margin: 8px;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 16px;
+}
+
+p.codigo2 {
+    text-indent: 110px;
+    color: black;
+    margin: 8px;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 16px;
+}
+
+p.codigo3 {
+    text-indent: 150px;
+    color: black;
+    margin: 8px;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 16px;
+}
+
+p.motivacional {
+    padding-left: 40px;
+    font-family: Tilt;
+    font-size: 1.0rem;
+    line-height: 1.5;
+    text-align: justify;
+}
+
+
+p.motivacional-final {
+    font-style: italic;
+    font-weight: bold;
+    color: black;
+    text-indent: 40px;
+    font-family: Tilt;
+    font-size: 1.0rem;
+}
+
+p.strikethrough {
+    position: relative;
+  }
+
+p.strikethrough:before {
+    position: absolute;
+    content: "";
+    left: 0;
+    top: 50%;
+    right: 0;
+    border-top: 1px solid;
+    border-color: inherit;
+    
+    -webkit-transform:rotate(-5deg);
+    -moz-transform:rotate(-5deg);
+    -ms-transform:rotate(-5deg);
+    -o-transform:rotate(-5deg);
+    transform:rotate(-5deg);
+  }
