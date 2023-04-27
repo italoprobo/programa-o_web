@@ -1,0 +1,63 @@
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f2f2f2;
+  }
+  
+
+  h1 {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+
+  h2 {
+    margin-top: 30px;
+    margin-bottom: 10px;
+  }
+  
+
+  ul,
+  ol {
+    margin-top: 10px;
+    margin-bottom: 20px;
+  }
+  
+
+
+  
+
+  ol li.r1 {
+    list-style-type: upper-roman;
+  }
+  ol li.r2 {
+    list-style-type: upper-roman;
+  }
+  ol li.r3 {
+    list-style-type: upper-roman;
+  }
+  ol li.r4 {
+    list-style-type: upper-roman;
+  }
+  ol li.r5 {
+    list-style-type: upper-roman;
+  }
+  
+
+  ul li.a1,
+  ul li.a2,
+  ul li.a3,
+  ul li.a4,
+  ul li.a5 {
+    margin: 100px;
+  }
+
+  ol li.d1,
+  ol li.d2,
+  ol li.d3,
+  ol li.d4,
+  ol li.d5 {
+    list-style-image: url('livro.png');
+    margin: 100px;
+    background-size: 5px 5px;
+  }

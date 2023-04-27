@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Validar Checkbox</title>
+</head>
+<body>
+	<h3>Selecione pelo menos um campeão:</h3>
+	<input type="checkbox" name="campeao" value="Akali">Akali<br>
+	<input type="checkbox" name="campeao" value="Ezreal">Ezreal<br>
+	<input type="checkbox" name="campeao" value="Yasuo">Yasuo<br>
+	<input type="checkbox" name="campeao" value="Lux">Lux<br>
+	<input type="checkbox" name="campeao" value="Lee Sin">Lee Sin<br><br>
+	<button onclick="validarCampeao()">Validar</button>
+
+	<script>
+		function validarCampeao() {
+			var checkboxes = document.getElementsByName("campeao");
+			var peloMenosUmMarcado = false;
+
+			for (var i = 0; i < checkboxes.length; i++) {
+				if (checkboxes[i].checked) {
+					peloMenosUmMarcado = true;
+					break;
+				}
+			}
+
+			if (peloMenosUmMarcado) {
+				alert("Pelo menos um campeão foi selecionado!");
+			} else {
+				alert("Selecione pelo menos um campeão!");
+			}
+		}
+	</script>
+</body>
+</html>

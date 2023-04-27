@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Carregar Imagem</title>
+</head>
+<body>
+	<label for="nomeImagem">Digite o nome(caminho) da imagem:</label>
+	<input type="text" id="nomeImagem"><br>
+
+	<button id="botaoCarregar">Carregar Imagem</button><br>
+
+	<div id="resultado"></div>
+
+	<script>
+		var botaoCarregar = document.getElementById('botaoCarregar');
+		botaoCarregar.addEventListener('click', carregarImagem);
+
+		function carregarImagem() {
+			var nomeImagem = document.getElementById('nomeImagem').value;
+
+			var img = document.createElement('img');
+			img.src = nomeImagem;
+
+			document.getElementById('resultado').appendChild(img);
+		}
+	</script>
+</body>
+</html>

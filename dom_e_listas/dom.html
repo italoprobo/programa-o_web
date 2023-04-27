@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Exemplo de uso do DOM</title>
+<link rel="stylesheet" type="text/css" href="estilo.css">
+</head>
+<body>
+<h1>Exemplo de uso do DOM</h1>
+<p id="paragrafo">Clique no botão abaixo para alterar o texto deste
+parágrafo:</p>
+<button id="botao1">Clique aqui</button>
+<p id="apagar">Clique no botão para apagar:</p>
+<button id="botao2">Clique aqui</button>
+
+<p><strong>Resposta da 4 questão: </strong>textContent e innerHTML são duas propriedades diferentes usadas para acessar e modificar o conteúdo de elementos HTML.
+    
+    A propriedade textContent retorna apenas o texto dentro do elemento, excluindo qualquer código HTML dentro dele.
+    Por exemplo, se você tiver o seguinte código HTML:    </p>
+    
+    <p>Este é um parágrafo <strong>importante</strong></p>
+    <p>Resultado: Este é um parágrafo importante</p>
+    
+    
+    <p>Usando o mesmo exemplo acima, se você acessar a propriedade innerHTML do elemento 'p'
+        , você obterá todo o conteúdo, incluindo o código HTML:</p>
+        <p>Resultado: Este é um parágrafo <strong>importante</strong></p>
+        
+        <p id="pdoido">paragrafo doido</p>
+        
+        <button id="botao3">Clique aqui para o paragrafo ficar doidão</button> 
+    </body>
+    <script src="script1.js"></script>
+</html>

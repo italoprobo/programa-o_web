@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Operação Matemática</title>
+</head>
+<body>
+	<label for="campo1">Campo 1:</label>
+	<input type="text" id="campo1"><br>
+
+	<label for="campo2">Campo 2:</label>
+	<input type="text" id="campo2"><br>
+
+	<button id="botaoCalcular">Calcular</button><br>
+
+	<p id="resultado"></p>
+
+	<script>
+		var botaoCalcular = document.getElementById('botaoCalcular');
+		botaoCalcular.addEventListener('click', realizarCalculo);
+
+		function realizarCalculo() {
+			var campo1 = document.getElementById('campo1').value;
+			var campo2 = document.getElementById('campo2').value;
+
+			if (isNaN(campo1) || isNaN(campo2)) {
+				alert("Digite apenas números!");
+				return;
+			}
+
+			var resultado = parseInt(campo1) + parseInt(campo2);
+
+			document.getElementById('resultado').innerHTML = "Resultado: " + resultado;
+		}
+	</script>
+</body>
+</html>

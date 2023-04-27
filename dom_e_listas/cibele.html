@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mover itens entre selects</title>
+</head>
+<body>
+    <select id="campeoes-disponiveis" size="5">
+        <option value="ahri">Ahri</option>
+        <option value="darius">Darius</option>
+        <option value="ezreal">Ezreal</option>
+        <option value="fiora">Fiora</option>
+        <option value="katarina">Katarina</option>
+        <option value="yasuo">Yasuo</option>
+        <option value="zed">Zed</option>
+    </select>
+    <div>
+        <button id="botao-para-esquerda">&lt;&lt;</button>
+        <button id="botao-para-direita">&gt;&gt;</button>
+    </div>
+    
+    <select id="meus-campeoes" size="5"></select>
+    
+    <script>
+        const campeoesDisponiveis = document.getElementById('campeoes-disponiveis');
+        const meusCampeoes = document.getElementById('meus-campeoes');
+        const botaoParaEsquerda = document.getElementById('botao-para-esquerda');
+        const botaoParaDireita = document.getElementById('botao-para-direita');
+    
+        botaoParaEsquerda.addEventListener('click', moverCampeaoParaEsquerda);
+        botaoParaDireita.addEventListener('click', moverCampeaoParaDireita);
+    
+        function moverCampeaoParaEsquerda() {
+            const campeaoSelecionado = campeoesDisponiveis.selectedOptions[0];
+            if (campeaoSelecionado) {
+                const novoCampeao = document.createElement('option');
+                novoCampeao.value = campeaoSelecionado.value;
+                novoCampeao.text = campeaoSelecionado.text;
+                meusCampeoes.appendChild(novoCampeao);
+                campeoesDisponiveis.removeChild(campeaoSelecionado);
+            }
+        }
+    
+        function moverCampeaoParaDireita() {
+            const campeaoSelecionado = meusCampeoes.selectedOptions[0];
+            if (campeaoSelecionado) {
+                const novoCampeao = document.createElement('option');
+                novoCampeao.value = campeaoSelecionado.value;
+                novoCampeao.text = campeaoSelecionado.text;
+                campeoesDisponiveis.appendChild(novoCampeao);
+                meusCampeoes.removeChild(campeaoSelecionado);
+            }
+        }
+    </script>
+</body>
+</html>    

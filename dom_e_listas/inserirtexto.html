@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Adicionar Opção ao Select</title>
+</head>
+<body>
+	<label for="texto">Digite um texto:</label>
+	<input type="text" id="texto"><br>
+
+	<button id="botaoAdicionar">Adicionar Opção</button><br>
+	<button id="botaoRemover">Remover Opção</button><br>
+
+	<select id="selectOpcoes" size="5"></select>
+
+	<script>
+		var botaoAdicionar = document.getElementById('botaoAdicionar');
+		var botaoRemover = document.getElementById('botaoRemover');
+		var selectOpcoes = document.getElementById('selectOpcoes');
+
+		botaoAdicionar.addEventListener('click', adicionarOpcao);
+		botaoRemover.addEventListener('click', removerOpcao);
+
+		function adicionarOpcao() {
+			var texto = document.getElementById('texto').value;
+
+			if (texto === '' || Array.from(selectOpcoes.options).some(opcao => opcao.value === texto)) {
+				alert('Opção inválida!');
+				return;
+			}
+
+			if (selectOpcoes.options.length >= 5) {
+				alert('Não é possível adicionar mais opções!');
+				return;
+			}
+
+			var opcao = document.createElement('option');
+			opcao.text = texto;
+			opcao.value = texto;
+
+			selectOpcoes.appendChild(opcao);
+		}
+
+		function removerOpcao() {
+			var opcoesSelecionadas = selectOpcoes.selectedOptions;
+
+			if (opcoesSelecionadas.length === 0) {
+				alert('Selecione uma opção para remover!');
+				return;
+			}
+
+			for (var i = opcoesSelecionadas.length - 1; i >= 0; i--) {
+				selectOpcoes.removeChild(opcoesSelecionadas[i]);
+			}
+		}
+	</script>
+</body>
+</html>

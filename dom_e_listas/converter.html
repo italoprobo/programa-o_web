@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Conversão de Texto</title>
+    <meta charset="UTF-8">
+</head>
+<body>
+	<label for="texto">Digite o texto:</label>
+	<input type="text" id="texto"><br>
+
+	<label for="opcao">Selecione a opção:</label>
+	<select id="opcao">
+		<option value="maiusculo">Maiúsculo</option>
+		<option value="minusculo">Minúsculo</option>
+	</select><br>
+
+	<button id="botaoConverter">Converter</button><br>
+
+	<div id="resultado"></div>
+
+	<script>
+		var botaoConverter = document.getElementById('botaoConverter');
+		botaoConverter.addEventListener('click', converterTexto);
+
+		function converterTexto() {
+			var texto = document.getElementById('texto').value;
+			var opcao = document.getElementById('opcao').value;
+			var resultado = '';
+
+			if (opcao === 'maiusculo') {
+				resultado = texto.toUpperCase();
+			} else if (opcao === 'minusculo') {
+				resultado = texto.toLowerCase();
+			}
+
+			document.getElementById('resultado').innerHTML = resultado;
+		}
+	</script>
+</body>
+</html>
